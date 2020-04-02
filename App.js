@@ -12,13 +12,23 @@ import {
 import AreaSpline from "./js/charts/AreaSpline";
 import Pie from "./js/charts/Pie";
 import InputComp from "./js/charts/InputComp";
+import List from "./js/charts/List";
 import Theme from "./js/theme";
-import data from "./resources/data";
+// import data from "./resources/data";
 
 type State = {
   activeIndex: number,
   spendingsPerYear: any
 };
+
+const data = [
+  { number: 10, name: "AAPL", price: 242 },
+  { number: 12, name: "GOOG", price: 1107 },
+  { number: 2, name: "AMZN", price: 2000 },
+  { number: 2, name: "TSLA", price: 500 },
+  { number: 2, name: "MSFT", price: 100 },
+  { number: 4, name: "UBER", price: 1000 }
+];
 
 export default class App extends Component {
   state: State;
@@ -27,10 +37,13 @@ export default class App extends Component {
     super(props);
     this.state = {
       activeIndex: 0,
-      spendingsPerYear: data.spendingsPerYear
+      inputValues: { name: "", number: 0 },
+      myPortfolio: data
     };
     this._onPieItemSelected = this._onPieItemSelected.bind(this);
     this._shuffle = this._shuffle.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
+    this.addData = this.addData.bind(this);
   }
 
   _onPieItemSelected(newIndex) {
@@ -49,8 +62,40 @@ export default class App extends Component {
     return a;
   }
 
+  onInputChange(name, value) {
+    const { inputValues } = this.state;
+    const newInputValues = { ...inputValues, [name]: value };
+    this.setState({ ...this.state, inputValues: newInputValues });
+  }
+
+  addData() {
+    console.log("hello click", this.state);
+    const { inputValues } = this.state;
+    const { name, number } = inputValues;
+    if (name && number !== 0) {
+      let newInputValues = { ...inputValues, price: 100 };
+      let newPortfolio = [...this.state.myPortfolio, newInputValues];
+      this.setState({
+        myPortfolio: newPortfolio,
+        inputValues: { name: "", number: 0 }
+      });
+    }
+  }
+
+  deleteData() {}
+
+  getSum(data) {
+    let sum = 0;
+    data.map(item => {
+      sum += Number(item.number);
+    });
+    console.log("sum", sum);
+    return sum;
+  }
+
   render() {
-    const height = 330;
+    const { myPortfolio } = this.state;
+    const height = 250;
     const width = 500;
 
     return (
@@ -64,13 +109,15 @@ export default class App extends Component {
             colors={Theme.colors}
             width={width}
             height={height}
-            data={data.spendingsLastMonth}
+            data={myPortfolio}
+            sum={this.getSum(myPortfolio)}
           />
-          <InputComp />
-          <Text style={styles.chart_title}>
-            Spending per year in{" "}
-            {data.spendingsLastMonth[this.state.activeIndex].name}
-          </Text>
+          <InputComp
+            inputValues={this.state.inputValues}
+            onInputChange={this.onInputChange}
+            onAddClick={this.addData}
+          />
+          <List data={myPortfolio} />
 
           {/* <AreaSpline
             width={width}

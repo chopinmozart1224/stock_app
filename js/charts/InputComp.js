@@ -1,22 +1,37 @@
-import React, { useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import React from "react";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 
-const InputComp = () => {
-  const [state, setState] = useState({
-    value: ""
-  });
-  const onChangeText = text => {
-    console.log("input", text);
+const InputComp = props => {
+  const { inputValues, onInputChange, onAddClick } = props;
+  const onChangeText = (name, text) => {
+    onInputChange(name, text);
   };
+  const onPress = () => {
+    onAddClick();
+  };
+
   return (
     <View style={styles.container}>
-      <Text>InputComp</Text>
-      <View>
+      <View style={styles.nameInput}>
         <TextInput
-          style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
-          onChangeText={text => onChangeText(text)}
-          value={state.value}
+          placeholder="Enter symbol"
+          style={styles.textInput}
+          onChangeText={text => onChangeText("name", text)}
+          value={inputValues.name}
         />
+      </View>
+      <View style={styles.valueInput}>
+        <TextInput
+          placeholder="Enter shares"
+          style={styles.textInput}
+          onChangeText={text => onChangeText("number", text)}
+          value={inputValues.number}
+        />
+      </View>
+      <View style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={onPress}>
+          <Text>Buy</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -24,10 +39,35 @@ const InputComp = () => {
 
 const styles = {
   container: {
-    backgroundColor: "red",
-    display: "flex",
+    flex: 1,
+    flexDirection: "row"
+  },
+  nameInput: {
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    flex: 0.3,
+    margin: 6
+  },
+  valueInput: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 0.3,
+    margin: 6
+  },
+  textInput: {
+    height: 35,
+    borderColor: "grey",
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 5
+  },
+  button: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 0.1,
+    backgroundColor: "lightblue",
+    margin: 6,
+    borderRadius: 5
   }
 };
 

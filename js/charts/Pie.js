@@ -46,7 +46,7 @@ class Pie extends React.Component {
 
   constructor(props: Props) {
     super(props);
-    this.state = { highlightedIndex: 0, sum: this.getSum(props.data) };
+    this.state = { highlightedIndex: 0 };
     this._createPieChart = this._createPieChart.bind(this);
     this._value = this._value.bind(this);
     this._label = this._label.bind(this);
@@ -54,17 +54,6 @@ class Pie extends React.Component {
     this._onPieItemSelected = this._onPieItemSelected.bind(this);
   }
 
-  getSum(data) {
-    console.log("hi data", data);
-    let sum = 0;
-    data.map(item => {
-      sum += item.number;
-    });
-    return sum;
-  }
-
-  // methods used to tranform data into piechart:
-  // TODO: Expose them as part of the interface
   _value(item) {
     return item.number;
   }
@@ -76,33 +65,6 @@ class Pie extends React.Component {
   _color(index) {
     return Theme.colors[index];
   }
-
-  // _createPieChart(index) {
-  //   var arcs = d3.shape.pie().value(this._value)(this.props.data);
-  //
-  //   var hightlightedArc = d3.shape
-  //     .arc()
-  //     .outerRadius(this.props.pieWidth / 2 + 10)
-  //     .padAngle(0.05)
-  //     .innerRadius(30);
-  //
-  //   var arc = d3.shape
-  //     .arc()
-  //     .outerRadius(this.props.pieWidth / 2)
-  //     .padAngle(0.05)
-  //     .innerRadius(30);
-  //
-  //   var arcData = arcs[index];
-  //   var path =
-  //     this.state.highlightedIndex == index
-  //       ? hightlightedArc(arcData)
-  //       : arc(arcData);
-  //
-  //   return {
-  //     path,
-  //     color: this._color(index)
-  //   };
-  // }
 
   _createPieChart(index) {
     const { pieWidth } = this.props;
@@ -209,7 +171,7 @@ class Pie extends React.Component {
   }
 
   getValues(number) {
-    const { sum } = this.state;
+    const { sum } = this.props;
     let percentage = Math.round((number / sum) * 1000) / 10;
     return percentage.toString() + "%";
   }
@@ -222,7 +184,7 @@ class Pie extends React.Component {
   render() {
     // const margin = styles.container.margin;
     const x = this.props.pieWidth;
-    const y = this.props.pieHeight;
+    const y = this.props.pieHeight / 1.5;
 
     return (
       <View width={this.props.width} height={this.props.height}>

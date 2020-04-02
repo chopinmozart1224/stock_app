@@ -33,6 +33,7 @@ export default {
     { number: 2, name: "AMZN" },
     { number: 2, name: "TSLA" },
     { number: 2, name: "MSFT" },
+    { number: 4, name: "UBER" },
     { number: 4, name: "UBER" }
   ]
 };
