@@ -28,11 +28,11 @@ export default {
   ],
 
   spendingsLastMonth: [
-    { number: 108, name: "Fun activities" },
-    { number: 7, name: "Dog" },
-    { number: 16, name: "Food" },
-    { number: 60, name: "Car" },
-    { number: 42, name: "Rent" },
-    { number: 4, name: "Misc" }
+    { number: 10, name: "AAPL" },
+    { number: 12, name: "GOOG" },
+    { number: 2, name: "AMZN" },
+    { number: 2, name: "TSLA" },
+    { number: 2, name: "MSFT" },
+    { number: 4, name: "UBER" }
   ]
 };

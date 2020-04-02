@@ -9,9 +9,9 @@ import {
   TouchableWithoutFeedback,
   View
 } from "react-native";
-
 import AreaSpline from "./js/charts/AreaSpline";
 import Pie from "./js/charts/Pie";
+import InputComp from "./js/charts/InputComp";
 import Theme from "./js/theme";
 import data from "./resources/data";
 
@@ -50,26 +50,28 @@ export default class App extends Component {
   }
 
   render() {
-    const height = 200;
+    const height = 330;
     const width = 500;
 
     return (
       <ScrollView>
         <View style={styles.container}>
-          {/* <Text style={styles.chart_title}>Distribution of spending this month</Text> */}
+          <Text style={styles.chart_title}>投資組合</Text>
           <Pie
-            pieWidth={150}
-            pieHeight={150}
+            pieWidth={200}
+            pieHeight={200}
             onItemSelected={this._onPieItemSelected}
             colors={Theme.colors}
             width={width}
             height={height}
             data={data.spendingsLastMonth}
           />
-          {/* <Text style={styles.chart_title}>
+          <InputComp />
+          <Text style={styles.chart_title}>
             Spending per year in{" "}
             {data.spendingsLastMonth[this.state.activeIndex].name}
-          </Text> */}
+          </Text>
+
           {/* <AreaSpline
             width={width}
             height={height}
