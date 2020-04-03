@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableWithoutFeedback } from "react-native";
 
 const InputComp = props => {
   const { inputValues, onInputChange, onAddClick } = props;
@@ -29,9 +29,11 @@ const InputComp = props => {
         />
       </View>
       <View style={styles.button}>
-        <TouchableOpacity style={styles.button} onPress={onPress}>
-          <Text>Buy</Text>
-        </TouchableOpacity>
+        <TouchableWithoutFeedback style={styles.button} onPress={onPress}>
+          <View>
+            <Text>Buy</Text>
+          </View>
+        </TouchableWithoutFeedback>
       </View>
     </View>
   );
@@ -39,6 +41,7 @@ const InputComp = props => {
 
 const styles = {
   container: {
+    alignItems: "center",
     flex: 1,
     flexDirection: "row"
   },
@@ -59,7 +62,7 @@ const styles = {
     borderColor: "grey",
     borderWidth: 1,
     borderRadius: 5,
-    padding: 5
+    padding: 10
   },
   button: {
     justifyContent: "center",
@@ -67,7 +70,8 @@ const styles = {
     flex: 0.1,
     backgroundColor: "lightblue",
     margin: 6,
-    borderRadius: 5
+    borderRadius: 5,
+    height: 35
   }
 };
 

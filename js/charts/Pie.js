@@ -196,7 +196,7 @@ class Pie extends React.Component {
                 d={this._createPieChart(index)}
                 stroke={this._color(index)}
                 strokeWidth={0.5}
-                fill={this._color(index)}
+                fill={item.color}
               />
             ))}
             {this.props.data.map((item, index) => (

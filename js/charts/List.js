@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, ListView } from "react-native";
 import ListItem from "./ListItem";
+import { ColorPicker } from "react-native-color-picker";
 
 function Item({ title }) {
   return (
@@ -11,12 +12,15 @@ function Item({ title }) {
 }
 
 const List = props => {
-  const { data } = props;
+  const { data, onItemSelected } = props;
   const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
   return (
     <View style={styles.container}>
       <View style={styles.tableHeader}>
+        <View style={styles.colorCol}>
+          <Text>Color</Text>
+        </View>
         <View style={styles.tableHead}>
           <Text>Symbol</Text>
         </View>
@@ -32,19 +36,26 @@ const List = props => {
       </View>
       <ListView
         dataSource={ds.cloneWithRows(data)}
-        renderRow={rowData => <ListItem rowData={rowData} />}
+        renderRow={(rowData, index) => (
+          <ListItem rowData={rowData} onItemSelected={onItemSelected} />
+        )}
       />
     </View>
   );
 };
 
 const styles = {
-  container: {},
+  container: {
+    flex: 1
+  },
+  colorCol: {
+    flex: 0.15
+  },
   tableHeader: {
     backgroundColor: "lightgrey",
     justifyContent: "center",
     alignItems: "center",
-    flex: 0.2,
+    flex: 0.15,
     flexDirection: "row"
   },
   tableHead: {
