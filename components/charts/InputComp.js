@@ -28,9 +28,9 @@ const InputComp = props => {
           value={inputValues.number}
         />
       </View>
-      <View style={styles.button}>
-        <TouchableWithoutFeedback style={styles.button} onPress={onPress}>
-          <View>
+      <View style={styles.buttonWrapper}>
+        <TouchableWithoutFeedback onPress={onPress}>
+          <View style={styles.button}>
             <Text>Buy</Text>
           </View>
         </TouchableWithoutFeedback>
@@ -64,14 +64,19 @@ const styles = {
     borderRadius: 5,
     padding: 10
   },
+  buttonWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 0.1
+  },
   button: {
     justifyContent: "center",
     alignItems: "center",
-    flex: 0.1,
-    backgroundColor: "lightblue",
     margin: 6,
     borderRadius: 5,
-    height: 35
+    width: 40,
+    height: 35,
+    backgroundColor: "#2ca02c"
   }
 };
 

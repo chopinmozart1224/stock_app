@@ -1,23 +1,11 @@
-// @flow
-"use strict";
-
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  ART,
-  LayoutAnimation,
-  Dimensions,
-  TouchableWithoutFeedback
-} from "react-native";
+import { StyleSheet, View, ART, TouchableWithoutFeedback } from "react-native";
 
-const { Surface, Group, Rectangle, Shape, Path, ClippingRectangle, Text } = ART;
+const { Surface, Group, Shape, Path, Text } = ART;
 
 import * as scale from "d3-scale";
 import * as shape from "d3-shape";
 import * as line from "d3-line";
-import * as d3Array from "d3-array";
-import AnimShape from "../art/AnimShape";
 import Theme from "../theme";
 
 const d3 = {
@@ -28,45 +16,19 @@ const d3 = {
 
 import { scaleBand, scaleLinear } from "d3-scale";
 
-type Props = {
-  height: number,
-  width: number,
-  pieWidth: number,
-  pieHeight: number,
-  colors: any,
-  onItemSelected: any
-};
-
-type State = {
-  highlightedIndex: number
-};
-
 class Pie extends React.Component {
-  state: State;
-
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.state = { highlightedIndex: 0 };
-    this._createPieChart = this._createPieChart.bind(this);
+    this.createPieChart = this.createPieChart.bind(this);
     this._value = this._value.bind(this);
-    this._label = this._label.bind(this);
-    this._color = this._color.bind(this);
-    this._onPieItemSelected = this._onPieItemSelected.bind(this);
   }
 
   _value(item) {
     return item.number;
   }
 
-  _label(item) {
-    return item.name;
-  }
-
-  _color(index) {
-    return Theme.colors[index];
-  }
-
-  _createPieChart(index) {
+  createPieChart(index) {
     const { pieWidth } = this.props;
     var arcs = d3.shape.pie().value(this._value)(this.props.data);
 
@@ -74,7 +36,7 @@ class Pie extends React.Component {
       .arc()
       .outerRadius(pieWidth / 2)
       .padAngle(0.05)
-      .innerRadius(35);
+      .innerRadius(40);
 
     let outerArc = d3.shape
       .arc()
@@ -176,13 +138,8 @@ class Pie extends React.Component {
     return percentage.toString() + "%";
   }
 
-  _onPieItemSelected(index) {
-    this.setState({ ...this.state, highlightedIndex: index });
-    this.props.onItemSelected(index);
-  }
-
   render() {
-    // const margin = styles.container.margin;
+    const { stockValue } = this.props;
     const x = this.props.pieWidth;
     const y = this.props.pieHeight / 1.5;
 
@@ -193,8 +150,8 @@ class Pie extends React.Component {
             {this.props.data.map((item, index) => (
               <Shape
                 key={index}
-                d={this._createPieChart(index)}
-                stroke={this._color(index)}
+                d={this.createPieChart(index)}
+                stroke={item.color}
                 strokeWidth={0.5}
                 fill={item.color}
               />
@@ -235,45 +192,15 @@ class Pie extends React.Component {
             })}
             <Text
               x={0}
-              y={0}
+              y={-10}
               font={`12px "Helvetica Neue", "Helvetica", Arial`}
               fill="#000000"
               alignment="center"
             >
-              9999100$
+              Total value:{stockValue}
             </Text>
           </Group>
         </Surface>
-
-        {/* <View
-          style={{
-            position: "absolute",
-            top: margin,
-            left: 2 * margin + this.props.pieWidth
-          }}
-        >
-          {this.props.data.map((item, index) => {
-            var fontWeight =
-              this.state.highlightedIndex == index ? "bold" : "normal";
-            return (
-              <TouchableWithoutFeedback
-                key={index}
-                onPress={() => this._onPieItemSelected(index)}
-              >
-                <View>
-                  <Text
-                    style={[
-                      styles.label,
-                      { color: this._color(index), fontWeight: fontWeight }
-                    ]}
-                  >
-                    {this._label(item)}: {this._value(item)}%
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
-            );
-          })}
-        </View> */}
       </View>
     );
   }
@@ -287,6 +214,10 @@ const styles = {
     fontSize: 15,
     marginTop: 5,
     fontWeight: "normal"
+  },
+  toggle: {
+    width: 50,
+    height: 50
   }
 };
 

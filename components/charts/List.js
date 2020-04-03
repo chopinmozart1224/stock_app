@@ -33,6 +33,9 @@ const List = props => {
         <View style={styles.tableHead}>
           <Text>Market value</Text>
         </View>
+        <View style={styles.tradeHead}>
+          <Text>trade</Text>
+        </View>
       </View>
       <ListView
         dataSource={ds.cloneWithRows(data)}
@@ -61,7 +64,7 @@ const styles = {
   tableHead: {
     flex: 0.2
   },
-  textInput: {}
+  tradeHead: { flex: 0.1 }
 };
 
 export default List;

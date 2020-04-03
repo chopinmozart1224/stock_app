@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, TouchableWithoutFeedback } from "react-native";
 import { ColorPicker } from "react-native-color-picker";
-//
 import Theme from "../theme";
 
 class ListItem extends Component {
@@ -11,9 +10,9 @@ class ListItem extends Component {
     this.onItemSelected = this.onItemSelected.bind(this);
   }
 
-  onItemSelected = () => {
+  onItemSelected = type => {
     const { rowData, onItemSelected } = this.props;
-    onItemSelected(rowData);
+    onItemSelected(type, rowData);
   };
 
   render() {
@@ -23,7 +22,9 @@ class ListItem extends Component {
       <View>
         <View style={styles.itemContainer}>
           <View style={styles.colorCol}>
-            <TouchableWithoutFeedback onPress={this.onItemSelected}>
+            <TouchableWithoutFeedback
+              onPress={() => this.onItemSelected("openColorPicker")}
+            >
               <View
                 style={{
                   width: 20,
@@ -45,6 +46,15 @@ class ListItem extends Component {
           <View style={styles.itemCol}>
             <Text>${Math.round(rowData.price * rowData.number)}</Text>
           </View>
+          <View style={styles.tradeCol}>
+            <TouchableWithoutFeedback
+              onPress={() => this.onItemSelected("deleteSelectedData")}
+            >
+              <View style={styles.sellButton}>
+                <Text alignment="center">Sell</Text>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
         </View>
       </View>
     );
@@ -64,6 +74,16 @@ const styles = {
   },
   itemCol: {
     flex: 0.2
+  },
+  tradeCol: {
+    alignItems: "flex-end",
+    flex: 0.1
+  },
+  sellButton: {
+    padding: 5,
+    backgroundColor: "red",
+    borderRadius: 8,
+    opacity: 0.7
   }
 };
 
